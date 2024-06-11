@@ -250,6 +250,8 @@ export function ChatWindow(props: { conversationId: string }) {
                 width={"240px"}
               >
                 <option value="openai_gpt_3_5_turbo">GPT-3.5-Turbo</option>
+                <option value="custom">custom</option>
+
                 <option value="fireworks_mixtral">
                   Mixtral (via Fireworks.ai)
                 </option>

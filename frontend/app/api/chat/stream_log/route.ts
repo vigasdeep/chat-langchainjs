@@ -22,6 +22,7 @@ import {
 
 import weaviate, { ApiKey } from "weaviate-ts-client";
 import { WeaviateStore } from "@langchain/weaviate";
+import { CustomLLM } from "@/app/utils/customModel";
 
 export const runtime = "edge";
 
@@ -211,16 +212,19 @@ export async function POST(req: NextRequest) {
     const config = body.config;
 
     let llm;
-    if (config.configurable.llm === "openai_gpt_3_5_turbo") {
-      llm = new ChatOpenAI({
-        modelName: "gpt-3.5-turbo-1106",
-        temperature: 0,
-      });
-    } else if (config.configurable.llm === "fireworks_mixtral") {
-      llm = new ChatFireworks({
-        modelName: "accounts/fireworks/models/mixtral-8x7b-instruct",
-        temperature: 0,
-      });
+    // if (config.configurable.llm === "openai_gpt_3_5_turbo") {
+    //   llm = new ChatOpenAI({
+    //     modelName: "gpt-3.5-turbo-1106",
+    //     temperature: 0,
+    //   });
+    // } else if (config.configurable.llm === "fireworks_mixtral") {
+    //   llm = new ChatFireworks({
+    //     modelName: "accounts/fireworks/models/mixtral-8x7b-instruct",
+    //     temperature: 0,
+    //   });
+    if (config.configurable.llm === "custom") {
+      console.log(config.configurable.llm, "aaa");
+      llm = new CustomLLM({ n: 50000 });
     } else {
       throw new Error(
         "Invalid LLM option passed. Must be 'openai' or 'mixtral'. Received: " +
